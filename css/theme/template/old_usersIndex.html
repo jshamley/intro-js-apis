@@ -1,0 +1,400 @@
+{if logged_out}
+  {redirect='site/login/{uri_string}'}
+{/if}
+{if in_group('{lv_admin_groups}')}
+{if:else}
+  {redirect='/'}
+{/if}
+{lv_template_header}
+<body class="my-profile">
+    {embed="embeds/nav"} 
+
+<div class="title-padding">
+  <h1>User Management test</h1>
+</div><!-- end main padding -->
+<div id="left-container-full">
+  {if in_group('11|23') OR in_group('{lv_admin_groups}')}
+    <div id="horiz-nav">
+      <ul>
+        <li style=" display:inline-block;padding:8px 15px 8px 15px;border-right:1px solid #dedede;"><strong>Add New:</strong></li>
+        {if in_group('11|23')}
+          <li><a href="{path=users/register/partner}">Partner</a></li>
+        {if:elseif in_group('{lv_admin_groups}')}
+          {!-- <li><a href="{path=users/register/customer}">Customer</a></li> --}
+          <li><a href="{path=users/register/partner}">Partner</a></li>
+          <li><a href="{path=users/register/sales_account_manager}">Sales Acct. Mgr.</a></li>
+          <li><a href="{path=users/register/regional_marketing_manager}">Regional Marketing Mgr.</a></li>
+          <li><a href="{path=users/register/finance}">Finance</a></li>
+          <li><a href="{path=users/register/sales_management}">Sales Management</a></li>
+          <li><a href="{path=users/register/global_channel_program_director}">Global Channel Program Dir.</a></li>
+          <li><a href="{path=users/register/admin}">Admin</a></li>
+        {/if}
+      </ul>
+    </div><!-- end horizontal nav -->
+  {/if}
+  <div style="clear:both; height:25px"></div>
+  <div class="main-padding w910 replace">
+
+    {exp:stash:parse process="inline"}
+      {exp:channel:entries
+        {if not_in_group(1)}
+          group_id="not 1"
+        {/if}
+        {if not_in_group({lv_admin_groups})}
+          group_id="{lv_partner_groups}"
+          search:member_region="{profile:member_region}"
+        {/if}
+        limit="9999"
+        channel="member_profiles"
+        status="New"
+        orderby="date"
+        sort="desc"
+      }
+        {exp:stash:newentries}{absolute_results}{/exp:stash:newentries}
+      {/exp:channel:entries}
+    {/exp:stash:parse}
+    {exp:channel:entries
+      {if not_in_group(1)}
+        group_id="not 1"
+      {/if}
+      {if not_in_group({lv_admin_groups})}
+        group_id="{lv_partner_groups}"
+        search:member_region="{profile:member_region}"
+      {/if}
+      limit="100"
+      channel="member_profiles"
+      status="New"
+      orderby="date"
+      sort="desc"
+    }
+      {if count == 1}
+      <h2>New User Requests</h2>
+      <div class="clearfix">
+        <div class="right pagination">
+           <p>1-{absolute_results} of {exp:stash:newentries}</p>
+        </div>
+      </div>
+      <table border="0" cellspacing="0" cellpadding="0" class="sort-table" style="margin-bottom:40px;">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>User Info</th>
+            <th>Type</th>
+            {if in_group('{lv_admin_groups}')}
+              <th>Region</th>
+            {/if}
+          </tr>
+        </thead>
+        <tbody class="rows">
+      {/if}
+          <tr>
+            <td><strong>{entry_date format="%m/%d/%Y"}</strong></td>
+            <td>
+              <strong><a href="{path=users/edit/{author_id}}">
+                {if member_first_name}
+                  {member_first_name} {member_last_name}
+                {if:else}
+                  Username: {username}
+                {/if}
+              </a></strong><br>
+              {member_organization}
+            </td>
+            <td>
+              <strong>{exp:member_group_title group_id="{group_id}"}</strong>
+              {member_classification backspace="6"}
+                {if member_classification:count == 1}<br />{/if}
+                {if "{member_classification:segment}" != "" AND "{member_classification:segment}" != "None"}
+                  {member_classification:segment}
+                {/if}
+                {if "{member_classification:type}" != "" AND "{member_classification:type}" != "None"}
+                  {member_classification:type}
+                {/if}
+                {if "{member_classification:tier}" != "" AND "{member_classification:tier}" != "None"}
+                  {member_classification:tier}
+                {/if}
+              <br />{/member_classification}
+            </td>
+            {if in_group('{lv_admin_groups}')}
+            <td><strong>{member_region}</strong></td>
+            {/if}
+          </tr>
+      {if count == total_results}
+        </tbody>
+      </table>
+      {/if}
+    {/exp:channel:entries}
+
+    {exp:stash:parse process="inline"}
+      {exp:channel:entries
+        {if not_in_group(1)}
+          group_id="not 1"
+        {/if}
+        {if not_in_group({lv_admin_groups})}
+          group_id="{lv_partner_groups}"
+          search:member_region="{profile:member_region}"
+        {/if}
+        limit="9999"
+        channel="member_profiles"
+        status="Pending"
+        orderby="date"
+        sort="desc"
+      }
+        {exp:stash:pendingentries}{absolute_results}{/exp:stash:pendingentries}
+      {/exp:channel:entries}
+    {/exp:stash:parse}
+    {exp:channel:entries
+      {if not_in_group(1)}
+        group_id="not 1"
+      {/if}
+      {if not_in_group({lv_admin_groups})}
+        group_id="{lv_partner_groups}"
+        search:member_region="{profile:member_region}"
+      {/if}
+      limit="100"
+      channel="member_profiles"
+      status="Pending"
+      orderby="date"
+      sort="desc"
+    }
+      {if count == 1}
+      <h2>Pending User Requests</h2>
+      <div class="clearfix">
+        <div class="right pagination">
+           <p>1-{absolute_results} of {exp:stash:pendingentries}</p>
+        </div>
+      </div>
+      <table border="0" cellspacing="0" cellpadding="0" class="sort-table" style="margin-bottom:40px;">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>User Info</th>
+            <th>Type</th>
+            {if in_group('{lv_admin_groups}')}
+              <th>Region</th>
+            {/if}
+          </tr>
+        </thead>
+        <tbody class="rows">
+      {/if}
+          <tr>
+            <td><strong>{entry_date format="%m/%d/%Y"}</strong></td>
+            <td>
+              <strong><a href="{path=users/edit/{author_id}}">
+                {if member_first_name}
+                  {member_first_name} {member_last_name}
+                {if:else}
+                  Username: {username}
+                {/if}
+              </a></strong><br>
+              {member_organization}
+            </td>
+            <td>
+              <strong>{exp:member_group_title group_id="{group_id}"}</strong>
+              {member_classification backspace="6"}
+                {if member_classification:count == 1}<br />{/if}
+                {if "{member_classification:segment}" != "" AND "{member_classification:segment}" != "None"}
+                  {member_classification:segment}
+                {/if}
+                {if "{member_classification:type}" != "" AND "{member_classification:type}" != "None"}
+                  {member_classification:type}
+                {/if}
+                {if "{member_classification:tier}" != "" AND "{member_classification:tier}" != "None"}
+                  {member_classification:tier}
+                {/if}
+              <br />{/member_classification}
+            </td>
+            {if in_group('{lv_admin_groups}')}
+            <td><strong>{member_region}</strong></td>
+            {/if}
+          </tr>
+      {if count == total_results}
+        </tbody>
+      </table>
+      {/if}
+    {/exp:channel:entries}
+
+    {!-- This is a hack because dynamo:options stopped working and needed a way to get the select populated within a dynamo:form container --}
+    {if in_group('{lv_admin_groups}')}
+      {exp:stash:set_list name="regions" parse_tags="yes"}
+        {exp:channel:form channel="member_profiles" return="users" }
+          {options:member_region}
+            {stash:option_value}{option_value}{/stash:option_value}
+            {stash:option_name}{option_name}{/stash:option_name}
+          {/options:member_region}
+        {/exp:channel:form}
+      {/exp:stash:set_list}
+    {/if}
+
+    {exp:dynamo:form class="dynamo single-filter" dynamic_parameters="status|search:member_region|group_id" search_id="{segment_2}" return="users"}
+      <h2 class="left">All Users</h2>
+      <div class="right">
+        <h3 class="left mt5">Find a Partner</h3>&nbsp;
+        <input type="text" name="keywords" class="keywords" id="keywords" value="{keywords}" class="left ml10">
+        <span class="button-blue user-page ml5" ><a style="position:relative;top:-1px;" href="javascript:void(0);" onclick="$(this).closest('form').submit();">Go</a></span>
+      </div>
+      <div class="right mr10">
+        <a href="{path=users/export/{segment_2}}"><span class="icon30 xls"></span> Export Current View</a> (CSV)
+      </div>
+      <div class="clear"></div>
+
+      <div class="filter lite space">
+        <h4>Filter By:</h4>
+        <select name="status" class="status">
+          <option value="">STATUS</option>
+          {exp:dynamo:statuses exclude="closed|open|New" variable_prefix="statuses:" channel="member_profiles"}
+          <option value="{statuses:status}"{if statuses:status == status} selected="selected"{/if}>{statuses:status}</option>
+          {/exp:dynamo:statuses}
+        </select>
+        {!-- THESE DON'T WORK CURRENTLY BECAUSE EE DOESN'T ALLOW SEARCHING GRID FIELDS
+          <select name="search:member_classification" id="search:member_classification">
+            <option value="">SEGMENT</option>
+            {exp:query sql="SELECT DISTINCT col_id_7 AS partner_segment FROM exp_channel_grid_field_228"}
+              <option value="{partner_segment}"{if "{partner_segment}" == "{search:member_classification}"} selected="selected"{/if}>{partner_segment}</option>
+            {/exp:query}
+          </select>
+          <select name="search:member_classification" id="search:member_classification">
+            <option value="">TYPE</option>
+            {exp:query sql="SELECT DISTINCT col_id_8 AS partner_type FROM exp_channel_grid_field_228"}
+              <option value="{partner_type}"{if "{partner_type}" == "{search:member_classification}"} selected="selected"{/if}>{partner_type}</option>
+            {/exp:query}
+          </select>
+          <select name="search:member_classification" id="search:member_classification">
+            <option value="">TIER</option>
+            {exp:query sql="SELECT DISTINCT col_id_9 AS partner_tier FROM exp_channel_grid_field_228"}
+              {if "{partner_tier}" != ""}
+              <option value="{partner_tier}"{if '{partner_tier}' == "{search:member_classification}"} selected="selected"{/if}>{partner_tier}</option>
+              {/if}
+            {/exp:query}
+          </select>
+        --}
+        <select name="group_id" class="group_id">
+          <option value="">TYPE</option>
+          {exp:dynamo:member_groups
+            variable_prefix="member_groups:"
+            exclude="{if in_group(10)}1|{/if}2|3|4"
+            {if in_group(11)}
+            include="{lv_partner_groups}"
+            {/if}
+          }
+          <option value="{member_groups:group_id}"{if member_groups:group_id == group_id} selected="selected"{/if}>{member_groups:group_title}</option>
+          {/exp:dynamo:member_groups}
+        </select>
+        {if in_group('{lv_admin_groups}')}
+          <select name="search:member_region" class="member_region">
+            <option value="">REGION</option>
+            {exp:stash:get_list name="regions"}
+              {if option_value != ""}
+                <option value="{option_value}"{if option_value == search:member_region} selected="selected"{/if}>{option_name}</option>
+              {/if}
+            {/exp:stash:get_list}
+          </select>
+        {/if}
+        <span class="button-blue user-page" ><a href="javascript:void(0);" onclick="$(this).closest('form').submit();">Go</a></span>
+        <a href="{path=users}" class="clear-filter" {if status || group_id || keywords || search:member_region}{if:else}style="display:none;"{/if}>Clear</a>
+      </div>
+    {/exp:dynamo:form}
+
+    <div>
+      <div class="mt20 clearfix">
+        <div class="right pagination">
+           <p>{abp_pagination_html}</p>
+        </div>
+      </div>
+      <div class="results">
+        <table border="0" cellspacing="0" cellpadding="0" class="sort-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>User Info</th>
+              <th>Status</th>
+              <th>Type</th>
+              {if in_group('{lv_admin_groups}')}
+              <th>Region</th>
+              {/if}
+            </tr>
+          </thead>
+          <tbody class="rows">
+          {exp:dynamo:entries
+            group_id="not 1"
+            {if not_in_group({lv_admin_groups})}
+            group_id="{lv_partner_groups}"
+            search:member_region="{profile:member_region}"
+            {/if}
+            paginate="custom"
+            limit="15"
+            channel="member_profiles"
+            status="not closed|open|New"
+            orderby="date"
+            sort="desc"
+            dynamic_parameters="status|search:member_region|group_id"
+            search_id="{segment_2}"
+          }
+          {paginate}
+              <span class="summary">({abp_entry_from}-{abp_entry_to} of {abp_total_entries})&nbsp;&nbsp;&nbsp;</span>
+              {if abp_has_previous}<a href="{abp_previous_link}">{/if}&laquo; Prev{if abp_has_previous}</a>{/if} &nbsp;
+              {abp_pages}{if abp_is_current}{abp_num}{if:else}<a href="{abp_link}">{abp_num}</a>{/if} {/abp_pages}
+              &nbsp; {if abp_has_next}<a href="{abp_next_link}">{/if}Next &raquo;{if abp_has_next}</a>{/if}
+          {/paginate}
+            <tr>
+              <td><strong>{entry_date format="%m/%d/%Y"}</strong></td>
+              <td><strong><a href="{path=users/edit/{author_id}}">{member_first_name} {member_last_name}</a></strong><br>{member_organization}</td>
+              <td><strong>{status}</strong></td>
+              <td>
+                <strong>{exp:member_group_title group_id="{group_id}"}</strong>
+                {member_classification backspace="6"}
+                  {if member_classification:count == 1}<br />{/if}
+                  {if "{member_classification:segment}" != "" AND "{member_classification:segment}" != "None"}
+                    {member_classification:segment}
+                  {/if}
+                  {if "{member_classification:type}" != "" AND "{member_classification:type}" != "None"}
+                    {member_classification:type}
+                  {/if}
+                  {if "{member_classification:tier}" != "" AND "{member_classification:tier}" != "None"}
+                    {member_classification:tier}
+                  {/if}
+                <br />{/member_classification}
+              </td>
+              {if in_group('{lv_admin_groups}')}
+              <td><strong>{member_region}</strong></td>
+              {/if}
+            </tr>
+            {if no_results}
+            <tr>
+              <td colspan="5"><p>No users matched your filter.</p></td>
+            </tr>
+            {/if}
+          {/exp:dynamo:entries}
+          </tbody>
+        </table>
+      </div>
+      <div class="center pagination">
+         <p>{abp_pagination_html}</p>
+      </div>
+    </div>
+
+    {exp:stats}
+      <h2>Users Logged In</h2>
+      <div class="clearfix">
+        <div class="right pagination">
+           <p>1-{total_logged_in} of {total_logged_in}</p>
+        </div>
+      </div>
+      <table border="0" cellspacing="0" cellpadding="0" class="sort-table" style="margin-bottom:40px;">
+        <thead>
+          <tr>
+            <th>Screen Name</th>
+          </tr>
+        </thead>
+        <tbody class="rows">
+          {member_names}
+            <tr>
+              <td>{name}</td>
+            </tr>
+          {/member_names}
+        </tbody>
+      </table>
+    {/exp:stats}
+
+  </div><!-- end main padding -->
+</div><!-- end left container -->
+{lv_template_footer}
