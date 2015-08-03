@@ -44,7 +44,7 @@
 			  <!-- Intro -->
 				<section>
 					<h1>Introduction to JavaScript APIs</h1>
-					<h3>Working with the Google Maps and YouTube APIs</h3>
+					<h3>Working with the Google Maps and Vimeo APIs</h3>
 					<br>
 					<p>
 						<small>Jeff Shamley - Web Developer - Shamley Incorporated</small><br>
@@ -110,17 +110,68 @@
   &lt;div id=&quot;map-canvas&quot;&gt;&lt;/div&gt; 
 &lt;/body&gt; 
 &lt;/html&gt;</code></pre>
-					<a href="map1.html" target="_blank">Map</a>
+					<a href="map1.html" target="_blank">Map</a><br>
+					<small><a href="https://developers.google.com/maps/documentation/javascript/" target="_blank" style="color: #fff;">https://developers.google.com/maps/documentation/javascript/</a></small>
 				</section>
 
 				<section>
 					<h2>More Options</h2>
-					
+					<pre class="language-javascript"><code>function initialize() {
+  var mapCanvas = document.getElementById('map-canvas');
+  var myLatlng = new google.maps.LatLng(40.396133, -105.076096);
+  var mapOptions = {
+    center: myLatlng,
+    zoom: 18,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  }
+  var map = new google.maps.Map(mapCanvas, mapOptions)
+  map.set('styles', [
+    {
+      featureType: 'road',
+      elementType: 'geometry',
+      stylers: [
+        { color: '#900900' },
+        { weight: 1.2 }
+      ]
+    }, {
+      featureType: 'poi.school',
+      elementType: 'geometry',
+      stylers: [
+        { hue: '#fff700' },
+        { lightness: -15 },
+        { saturation: 99 }
+      ]
+    }
+  ]);
+  var marker = new google.maps.Marker({
+    position: myLatlng,
+    map: map,
+    animation: google.maps.Animation.DROP,
+    title: 'NoCo JavaScript',
+  });
+  var infowindow = new google.maps.InfoWindow({
+    content: 'Intro to JavaScript APIs'
+  });
+  google.maps.event.addListener(marker, 'click', function() {
+    infowindow.open(map,marker);
+  });
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+marker.setMap(map);</code></pre>
+					<a href="map2.html" target="_blank">Map</a>
+				</section>
+
+				<section>
+					<h2>Vimeo Player API</h2>
+					<pre class="language-markup"><code>&lt;script src=&quot;https://f.vimeocdn.com/js/froogaloop2.min.js&quot;&gt;&lt;/script&gt; 
+&lt;iframe id=&quot;player1&quot; src=&quot;https://player.vimeo.com/video/76979871?api=1&amp;player_id=player1&quot; width=&quot;630&quot; height=&quot;354&quot; frameborder=&quot;0&quot; webkitallowfullscreen mozallowfullscreen allowfullscreen&gt;&lt;/iframe&gt;</code></pre>
+					<a href="video1.html" target="_blank">Video</a><br>
+					<small><a href="https://developer.vimeo.com/player/js-api" target="_blank">https://developer.vimeo.com/player/js-api</a></small>
 				</section>
 
 				<section style="text-align: left;">
 					<h1>Questions?</h1>
-					<h3>Working with the Google Maps and YouTube APIs</h3>
+					<h3>Working with the Google Maps and Vimeo APIs</h3>
 					<br>
 					<p>
 						<small>Jeff Shamley - Web Developer - Shamley Incorporated</small><br>
