@@ -92,6 +92,14 @@ $('.my-class').addClass('test-class');</code></pre>
 $('.my-class').hide();</code></pre>
 					<pre class="language-javascript"><code>// get text of a block
 $('.my-class').text();</code></pre>
+					<pre class="language-javascript"><code>// simple ajax request
+$.ajax({
+  url: "test.html",
+  context: document.body,
+  success: function(){
+    $(this).addClass("done");
+  }
+});</code></pre>
 				</section>
 
 				<section>
