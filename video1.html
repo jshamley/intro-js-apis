@@ -33,10 +33,11 @@
         var iframe = $('#player1')[0];
         var player = $f(iframe);
 
-        // Call the API when a button is pressed
         $('button.play').bind('click', function() {
           player.api('play');
-          console.log('hi')
+        });
+        $('button.pause').bind('click', function() {
+          player.api('pause');
         });
       });
     </script>
