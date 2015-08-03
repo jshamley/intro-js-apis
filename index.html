@@ -55,7 +55,7 @@
 				<!-- What are JavaScript APIs -->
 				<section>
 					<section>
-						<h2>What is an APIs?</h2>
+						<h2>What is an API?</h2>
 						<p>An Application Programming Interface (API) is a set of routines, protocols and tools for building software applications.</p>
 						<br>
 						<a href="#" class="navigate-down">
@@ -165,6 +165,17 @@ marker.setMap(map);</code></pre>
 					<h2>Vimeo Player API</h2>
 					<pre class="language-markup"><code>&lt;script src=&quot;https://f.vimeocdn.com/js/froogaloop2.min.js&quot;&gt;&lt;/script&gt; 
 &lt;iframe id=&quot;player1&quot; src=&quot;https://player.vimeo.com/video/76979871?api=1&amp;player_id=player1&quot; width=&quot;630&quot; height=&quot;354&quot; frameborder=&quot;0&quot; webkitallowfullscreen mozallowfullscreen allowfullscreen&gt;&lt;/iframe&gt;</code></pre>
+					<pre class="language-javascript"><code>$(function() {
+  var iframe = $('#player1')[0];
+  var player = $f(iframe);
+
+  $('button.play').bind('click', function() {
+    player.api('play');
+  });
+  $('button.pause').bind('click', function() {
+    player.api('pause');
+  });
+});</code></pre>
 					<a href="video1.html" target="_blank">Video</a><br>
 					<small><a href="https://developer.vimeo.com/player/js-api" target="_blank">https://developer.vimeo.com/player/js-api</a></small>
 				</section>
