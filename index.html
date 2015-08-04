@@ -56,31 +56,32 @@
 				<section>
 					<section>
 						<h2>What is an API?</h2>
-						<p>An Application Programming Interface (API) is a set of routines, protocols and tools for building software applications.</p>
-						<br>
+						<p>Application Programming Interfaces (APIs) are a set of routines, protocols and tools for building applications.</p>
+						<img src="web20.png">
+						<!-- <br>
 						<a href="#" class="navigate-down">
 							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
+						</a> -->
 					</section>
 					<section>
 						<h2>Library APIs</h2>
 						<p>Specifies routines, data structures, object classes and variables in a package of files.</p>
-						<a href="#2" class="navigate-down">
+						<!-- <a href="#2" class="navigate-down">
 							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
+						</a> -->
 					</section>
 					<section>
 						<h2>Web Service APIs</h2>
 						<p><b>REST</b> - Representational state transfer APIs expose remote calls using HTTP methods <code>POST</code>, <code>PUT</code>, <code>GET</code> and <code>DELETE</code>.</p>
 						<p><b>SOAP</b> - Simple Object Access Protocol uses XML to exchange structured data in the implementation of web services.</p>
 						<p><b>XML-RPC and JSON-RPC</b> - Remote procedure calls using HTTP as a transport mechanism.</p>
-						<a href="#3" class="navigate-down">
+						<!-- <a href="#3" class="navigate-down">
 							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
+						</a> -->
 					</section>
 					<section>
-						<h2>Why use APIs?</h2>
-						<p>Integrate other products or services in your application without all of the overhead.</p>
+						<h2>Why should we use APIs?</h2>
+						<p>To integrate other products or services in your application without all of the overhead.</p>
 					</section>
 				</section>
 
@@ -181,7 +182,7 @@ google.maps.event.addDomListener(window, 'load', initialize);</code></pre>
 					<pre class="language-markup"><code>&lt;script src=&quot;https://f.vimeocdn.com/js/froogaloop2.min.js&quot;&gt;&lt;/script&gt; 
 &lt;iframe id=&quot;player1&quot; src=&quot;https://player.vimeo.com/video/76979871?api=1&amp;player_id=player1&quot; width=&quot;630&quot; height=&quot;354&quot; frameborder=&quot;0&quot; webkitallowfullscreen mozallowfullscreen allowfullscreen&gt;&lt;/iframe&gt;</code></pre>
 					<pre class="language-javascript"><code>$(function() {
-  var iframe = $('#player1')[0];
+  var iframe = $('#player1');
   var player = $f(iframe);
 
   $('button.play').bind('click', function() {
