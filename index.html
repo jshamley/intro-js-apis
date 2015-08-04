@@ -182,7 +182,7 @@ google.maps.event.addDomListener(window, 'load', initialize);</code></pre>
 					<pre class="language-markup"><code>&lt;script src=&quot;https://f.vimeocdn.com/js/froogaloop2.min.js&quot;&gt;&lt;/script&gt; 
 &lt;iframe id=&quot;player1&quot; src=&quot;https://player.vimeo.com/video/76979871?api=1&amp;player_id=player1&quot; width=&quot;630&quot; height=&quot;354&quot; frameborder=&quot;0&quot; webkitallowfullscreen mozallowfullscreen allowfullscreen&gt;&lt;/iframe&gt;</code></pre>
 					<pre class="language-javascript"><code>$(function() {
-  var iframe = $('#player1');
+  var iframe = $('#player1')[0];
   var player = $f(iframe);
 
   $('button.play').bind('click', function() {
@@ -199,7 +199,7 @@ google.maps.event.addDomListener(window, 'load', initialize);</code></pre>
 				<section>
 					<h2>More Options</h2>
 					<pre class="language-javascript"><code>$(function() {
-  var player = $('iframe');
+  var player = $('iframe')[0];
   var playerOrigin = '*';
   var status = $('.status');
 
